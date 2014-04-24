@@ -1,10 +1,10 @@
 ## Pinboard
 
-Pinboard is an application written using [Xamarin.Mac](http://xamarin.com).  As an application it's functionality is pretty simple.  It allows you to create a collection of named, colored overlapping rectangles.  This is useful for screen layout and content placement, in a video game for example.
+Pinboard is a simple document centric application written using [Xamarin.Mac](http://xamarin.com).  It allows you to create an XML document containing a collection of named, colored overlapping rectangles.  This is useful for screen layout and content placement. It is used to create the screen layouts for the iOS app [Jamoki Spider Solitaire](https://itunes.apple.com/us/app/spider-solitaire-by-jamoki/id511985351) for example.
 
-Perhaps even more useful is that the app serves as a very full featured example of how to write model/view/controller applications using Xamarin.Mac.  It makes for a much more functionally complete starting point for a real document centric application, including things like undo and multiple selection/edit.
+The app serves as a very full featured example of how to write model/view/controller applications using Xamarin.Mac.  It is a great starting place for a real document centric application because it includes most of the things you are likely to need in such an app, including undo and multi-selection.
 
-Specifically, it shows how to use:
+Specifically, it shows how to use the follow classes and concepts in Cocoa on iOS:
 
 - NSScrollView (for scrolling and magification)
 - KVC/KVO and binding
@@ -19,10 +19,10 @@ Specifically, it shows how to use:
 - Quartz graphics
 - Advanced XIB files
 
-In addition the app makes use of .NET libraries for loading and saving XML files.  
+The app also makes use of Mono libraries for loading and saving XML files.  
 
-If you have the [Sketch](http://bohemiancoding.com/sketch/) application, you can see how easy it is to create great looking resources for your OSX applications.
+If you have the [Sketch](http://bohemiancoding.com/sketch/) application, you can see how easy it is to create great looking resources for your OSX applications using it.  The folder `RawResources` contains the origin `.sketch` artwork that is used to generate all the `.png` files in the `Resources` directory.
 
-As it stands the application would make a great starting point for a simple vector drawing program, or other graphics centric application.
+As it stands now, the codebase makes a great starting point for a simple vector drawing program, or other graphics centric application.
 
 Enjoy!
