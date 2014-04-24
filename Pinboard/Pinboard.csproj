@@ -104,5 +104,7 @@
     <BundleResource Include="Resources\Minus%402x.png" />
     <BundleResource Include="Resources\Plus.png" />
     <BundleResource Include="Resources\Plus%402x.png" />
+    <BundleResource Include="Resources\Grabber.png" />
+    <BundleResource Include="Resources\Grabber%402x.png" />
   </ItemGroup>
 </Project>

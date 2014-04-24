@@ -14,7 +14,7 @@ namespace Pinboard
     {
         protected List<int> selectionIndexes = new List<int>();
         [Outlet]
-        PinboardWindowController Controller { get; set; }
+        public PinboardWindowController Controller { get; set; }
 
         protected PinboardData Pinboard
         {
@@ -66,94 +66,81 @@ namespace Pinboard
 
             PinboardData pinboard = this.Pinboard;
 
-            DrawPinboardFile(g, pinboard.ScreenRectangle, false);
+            DrawRectangle(g, pinboard.ScreenRectangle);
 
             for (int i = 0; i < pinboard.Rectangles.Count; i++)
             {
                 var rectInfo = Pinboard.Rectangles.GetItem<PinboardData.RectangleInfo>(i);
 
-                DrawPinboardFile(g, rectInfo, isSelected: false);
+                DrawRectangle(g, rectInfo);
             }
+
+            DrawSelected(g);
 
             g.RestoreState();
         }
 
-        void DrawPinboardFile(CGContext g, PinboardData.RectangleInfo rectInfo, bool isSelected)
+        void DrawRectangle(CGContext g, PinboardData.RectangleInfo rectInfo)
         {
             g.SetFillColor(rectInfo.Color);
             g.FillRect(rectInfo.Rectangle);
 
-            float pw = 0.5f; // Pen width
-            float gw = 6.0f; // Grabber width
-            float gsw = 1.0f; // Grabber shadow width
-            float hgw = gw / 2f; // Half grabber width
-            float x = rectInfo.X;
-            float y = rectInfo.Y;
-            float h = rectInfo.Height;
-            float w = rectInfo.Width;
+            float pw = 0.5f;
             CGColor rectBorderColor = new CGColor(0f, rectInfo.Color.Alpha);
-            CGColor grabberColor = new CGColor(1f, 1f);
-            CGGradient grabberGradient = null;
-            using (var colorSpace = CGColorSpace.CreateDeviceRGB())
-            {
-                grabberGradient = new CGGradient(colorSpace, new CGColor[] 
-                {
-                    new CGColor(1f, 1f),
-                    new CGColor(0.9f, 1f)
-                });
-            }
 
             g.SetLineWidth(pw);
-
-            if (isSelected)
-            {
-                PointF[] grabbers = new PointF[]
-                {
-                    new PointF(x - hgw, y - hgw),
-                    new PointF(x - hgw, y + h / 2f - hgw),
-                    new PointF(x - hgw, y + h - hgw),
-                    new PointF(x + w / 2f - hgw, y - hgw),
-                    new PointF(x + w - hgw, y - hgw),
-                    new PointF(x + w - hgw, y + h / 2f - hgw),
-                    new PointF(x + w - hgw, y + h - hgw),
-                    new PointF(x + w / 2f - hgw, y + h - hgw)
-                };
-
-                SizeF size = new SizeF(gw, gw);
-                g.SetFillColor(grabberColor);
-
-                for (int i = 0; i < grabbers.Length; i++)
-                {
-                    RectangleF rect = new RectangleF(grabbers[i], size);
-                    RectangleF shadowRect = new RectangleF(rect.Location, rect.Size);
-                    shadowRect.Inflate(new SizeF(gsw, gsw));
-                    g.SaveState();
-                    g.SetFillColor(new CGColor(0.5f, 0.3f));
-                    g.FillRect(shadowRect);
-                    g.BeginPath();
-                    g.AddRect(rect);
-                    g.Clip();
-                    g.DrawLinearGradient(grabberGradient, new PointF(rect.GetMidX(), rect.Bottom), new PointF(rect.GetMidX(), rect.Top), 0);
-                    g.RestoreState();
-                }
-            }
-            else
-            {
-                g.SetStrokeColor(rectBorderColor);
-                g.SetFillColor(rectInfo.Color);
-                g.SetLineJoin(CGLineJoin.Miter);
-                g.BeginPath();
-                g.StrokeRect(rectInfo.Rectangle);
-            }
+            g.SetStrokeColor(rectBorderColor);
+            g.SetFillColor(rectInfo.Color);
+            g.SetLineJoin(CGLineJoin.Miter);
+            g.BeginPath();
+            g.StrokeRect(rectInfo.Rectangle);
 
             int margin = 5;
-
+            // TODO: Make the font configurable
             NSFont font = NSFont.FromFontName("Helvetica", 12f);
             NSObject[] objects = new NSObject[] { font, (NSNumber)0 };
             NSObject[] keys = new NSObject[] { NSAttributedString.FontAttributeName, NSAttributedString.LigatureAttributeName };
             NSDictionary attributes = NSDictionary.FromObjectsAndKeys(objects, keys);
             NSAttributedString attrString = new NSAttributedString(rectInfo.Name, attributes);
+
             attrString.DrawString(new RectangleF(rectInfo.X + margin, rectInfo.Y + margin, rectInfo.Width - 2 * margin, rectInfo.Height - 2 * margin));
+        }
+
+        void DrawSelected(CGContext g)
+        {
+            CGImage grabberImage;
+            RectangleF targetRect = new RectangleF(0, 0, 10, 10);
+            grabberImage = NSImage.ImageNamed("Grabber").AsCGImage(ref targetRect, NSGraphicsContext.CurrentContext, new NSDictionary());
+
+            float hgw = grabberImage.Width / 2f;
+            float hgh = grabberImage.Height / 2f;
+
+            // TODO: Calculate the rectangle surrounding the selected rectangles
+            PinboardData.RectangleInfo rectInfo = this.Pinboard.Rectangles.GetItem<PinboardData.RectangleInfo>(0);
+
+            float x = rectInfo.X;
+            float y = rectInfo.Y;
+            float h = rectInfo.Height;
+            float w = rectInfo.Width;
+
+            PointF[] grabberPoints = new PointF[]
+            {
+                new PointF(x - hgw, y - hgh),
+                new PointF(x - hgw, y + h / 2 - hgh),
+                new PointF(x - hgw, y + h - hgw),
+                new PointF(x + w / 2 - hgw, y - hgw),
+                new PointF(x + w - hgw, y - hgw),
+                new PointF(x + w - hgw, y + h / 2f - hgw),
+                new PointF(x + w - hgw, y + h - hgw),
+                new PointF(x + w / 2 - hgw, y + h - hgw)
+            };
+
+            for (int i = 0; i < grabberPoints.Length; i++)
+            {
+                RectangleF rect = new RectangleF(grabberPoints[i], new SizeF(grabberImage.Width, grabberImage.Height));
+
+                g.DrawImage(rect, grabberImage);
+            }
         }
     }
 }
