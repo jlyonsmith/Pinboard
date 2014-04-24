@@ -6,8 +6,8 @@ Perhaps even more useful is that the app serves as a very full featured example 
 
 Specifically, it shows how to use:
 
-- KVC/KVO
-- Binding
+- NSScrollView (for scrolling and magification)
+- KVC/KVO and binding
 - NSWindowController
 - NSDrawer
 - NSArrayController
@@ -17,12 +17,12 @@ Specifically, it shows how to use:
 - NSMenu/NSMenuItem
 - Custom NSViews
 - Quartz graphics
-- Advanced XIB use
+- Advanced XIB files
 
 In addition the app makes use of .NET libraries for loading and saving XML files.  
 
 If you have the [Sketch](http://bohemiancoding.com/sketch/) application, you can see how easy it is to create great looking resources for your OSX applications.
 
-As it stands the application would make a great starting point for a simple drawing vector drawing program, or other painting application.
+As it stands the application would make a great starting point for a simple vector drawing program, or other graphics centric application.
 
 Enjoy!
