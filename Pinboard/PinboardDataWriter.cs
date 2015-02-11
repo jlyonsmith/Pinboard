@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Drawing;
-using MonoMac.CoreGraphics;
+using CoreGraphics;
 
 namespace Pinboard
 {
@@ -30,7 +30,7 @@ namespace Pinboard
         {
             writer.WriteStartElement("Rectangles");
 
-            for (int i = 0; i < data.Rectangles.Count; i++)
+            for (nuint i = 0; i < data.Rectangles.Count; i++)
             {
                 var rectInfo = data.Rectangles.GetItem<PinboardData.RectangleInfo>(i);
                 WriteRectangleXml(writer, rectInfo);

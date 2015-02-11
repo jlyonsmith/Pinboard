@@ -3,13 +3,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6F58CC8C-199A-4D89-98A8-DD66B48A106D}</ProjectGuid>
-    <ProjectTypeGuids>{42C0BBD9-55CE-4FC1-8D90-A7348ABAFB23};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{A3F8F2AB-B479-4A4A-A458-A89E7DC349F1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{8D0A9183-5029-4A41-AAC3-AE3BE9C26F82}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Pinboard</RootNamespace>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
-    <AssemblyName>Pinboard</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <AssemblyName>Pinboard2</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>Xamarin.Mac</TargetFrameworkIdentifier>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,13 +21,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <UseRefCounting>true</UseRefCounting>
     <UseSGen>false</UseSGen>
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <EnablePackageSigning>false</EnablePackageSigning>
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
-    <Commandlineparameters>/Users/john/Projects/Jamoki/Playroom/Test/RawContent/Example.pinboard</Commandlineparameters>
+    <PackageSigningKey>Developer ID Installer</PackageSigningKey>
+    <XamMacArch>x86_64</XamMacArch>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -36,13 +39,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <LinkMode>Full</LinkMode>
+    <LinkMode>SdkOnly</LinkMode>
+    <UseRefCounting>true</UseRefCounting>
     <UseSGen>false</UseSGen>
     <IncludeMonoRuntime>true</IncludeMonoRuntime>
-    <EnablePackageSigning>false</EnablePackageSigning>
+    <CreatePackage>true</CreatePackage>
     <CodeSigningKey>Developer ID Application</CodeSigningKey>
     <EnableCodeSigning>true</EnableCodeSigning>
-    <CreatePackage>true</CreatePackage>
+    <EnablePackageSigning>false</EnablePackageSigning>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|AnyCPU' ">
@@ -52,7 +56,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <LinkMode>Full</LinkMode>
+    <LinkMode>SdkOnly</LinkMode>
+    <UseRefCounting>true</UseRefCounting>
     <UseSGen>false</UseSGen>
     <IncludeMonoRuntime>true</IncludeMonoRuntime>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
@@ -64,11 +69,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="XamMac" />
+    <Reference Include="Xamarin.Mac" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -76,35 +79,45 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="PinboardView.cs" />
-    <Compile Include="PinboardDocument.cs" />
-    <Compile Include="PinboardWindowController.cs" />
-    <Compile Include="PinboardData.cs" />
-    <Compile Include="PinboardDataReaderV1.cs" />
-    <Compile Include="PinboardDataWriter.cs" />
-    <Compile Include="PinboardDataReaderV2.cs" />
-    <Compile Include="PinboardToolbarDelegate.cs" />
-    <Compile Include="RectangleDrawerView.cs" />
     <Compile Include="RectangleDrawerDelegate.cs" />
+    <Compile Include="RectangleDrawerView.cs" />
+    <Compile Include="PinboardWindowController.cs" />
+    <Compile Include="PinboardDocument.cs" />
+    <Compile Include="PinboardData.cs" />
+    <Compile Include="CocoaBinding.cs" />
+    <Compile Include="CGColorToNSColorValueTransformer.cs" />
+    <Compile Include="PinboardView.cs" />
+    <Compile Include="PinboardDataReaderV1.cs" />
+    <Compile Include="PinboardDataReaderV2.cs" />
+    <Compile Include="PinboardDataWriter.cs" />
+    <Compile Include="PinboardToolbarDelegate.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Info.plist" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
   <ItemGroup>
     <InterfaceDefinition Include="MainMenu.xib" />
     <InterfaceDefinition Include="PinboardDocument.xib" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Info.plist" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
     <BundleResource Include="Resources\Drawer.png" />
     <BundleResource Include="Resources\Drawer%402x.png" />
+    <BundleResource Include="Resources\Grabber.png" />
+    <BundleResource Include="Resources\Grabber%402x.png" />
     <BundleResource Include="Resources\Magnifier.png" />
     <BundleResource Include="Resources\Magnifier%402x.png" />
     <BundleResource Include="Resources\Minus.png" />
     <BundleResource Include="Resources\Minus%402x.png" />
+    <BundleResource Include="Resources\N-S-Arrow.png" />
+    <BundleResource Include="Resources\N-S-Arrow%402x.png" />
+    <BundleResource Include="Resources\NW-SE-Arrow.png" />
+    <BundleResource Include="Resources\NW-SE-Arrow%402x.png" />
     <BundleResource Include="Resources\Plus.png" />
     <BundleResource Include="Resources\Plus%402x.png" />
-    <BundleResource Include="Resources\Grabber.png" />
-    <BundleResource Include="Resources\Grabber%402x.png" />
+    <BundleResource Include="Resources\SW-NE-Arrow.png" />
+    <BundleResource Include="Resources\SW-NE-Arrow%402x.png" />
+    <BundleResource Include="Resources\W-E-Arrow.png" />
+    <BundleResource Include="Resources\W-E-Arrow%402x.png" />
   </ItemGroup>
 </Project>

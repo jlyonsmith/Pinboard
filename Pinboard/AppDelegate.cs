@@ -1,20 +1,20 @@
 ﻿using System;
-using System.Drawing;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
+using Foundation;
+using AppKit;
 
 namespace Pinboard
 {
-    [MonoMac.Foundation.Register("AppDelegate")]
+    [Register("AppDelegate")]
     public class AppDelegate : NSApplicationDelegate
     {
         public AppDelegate()
         {
         }
-
-        public override void FinishedLaunching(NSObject notification)
+        
+        public override void DidFinishLaunching(NSNotification notification)
         {
         }
     }
 }
+
 

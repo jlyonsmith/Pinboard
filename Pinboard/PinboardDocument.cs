@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using System.Drawing;
+using Foundation;
+using AppKit;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -16,12 +15,6 @@ namespace Pinboard
         public PinboardData Pinboard { get; set; }
 
         public PinboardDocument(IntPtr handle) : base(handle)
-        {
-            Pinboard = PinboardData.Default;
-        }
-
-        [Export("initWithCoder:")]
-        public PinboardDocument(NSCoder coder) : base(coder)
         {
             Pinboard = PinboardData.Default;
         }
@@ -64,17 +57,6 @@ namespace Pinboard
             }
 
             return true;
-        }
-
-        // If this returns the name of a XIB/NIB file instead of null, a NSDocumentController
-        // is automatically created for you.
-        public override string WindowNibName
-        { 
-            get
-            {
-                // Name of the .xib file
-                return "PinboardDocument";
-            }
         }
     }
 }

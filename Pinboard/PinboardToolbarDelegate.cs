@@ -1,8 +1,8 @@
 ﻿using System;
-using MonoMac.AppKit;
+using AppKit;
 using System.Diagnostics;
-using MonoMac.ObjCRuntime;
-using MonoMac.Foundation;
+using ObjCRuntime;
+using Foundation;
 
 namespace Pinboard
 {
@@ -15,11 +15,6 @@ namespace Pinboard
         public NSMenu ZoomInOutMenu { get; set; }
 
         public PinboardToolbarDelegate(IntPtr handle) : base(handle)
-        {
-        }
-
-        [Export("initWithCoder:")]
-        public PinboardToolbarDelegate(NSCoder coder) : base(coder)
         {
         }
 
@@ -43,7 +38,7 @@ namespace Pinboard
             };
         }
 
-        public override void DidRemoveItem(MonoMac.Foundation.NSNotification notification)
+        public override void DidRemoveItem(NSNotification notification)
         {
         }
 
@@ -52,7 +47,7 @@ namespace Pinboard
             return new string[0];
         }
 
-        public override void WillAddItem(MonoMac.Foundation.NSNotification notification)
+        public override void WillAddItem(NSNotification notification)
         {
         }
 

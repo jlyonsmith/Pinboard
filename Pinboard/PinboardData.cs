@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Foundation;
+using CoreGraphics;
 using System.Drawing;
-using MonoMac.Foundation;
-using MonoMac.CoreGraphics;
 
 namespace Pinboard
 {
@@ -17,6 +17,9 @@ namespace Pinboard
         [Export("screenRectangle")]
         public RectangleInfo ScreenRectangle { get; set; }
 
+        // TODO: Apple claims you can get performance improvements by implementing a to-many accessor pattern 
+        // instead of returning the collection directly.
+        // See https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueCoding/Articles/AccessorConventions.html#//apple_ref/doc/uid/20002174-BAJEAIEE
         [Export("rectangles")]
         public NSMutableArray Rectangles { get; set; }
 
@@ -75,12 +78,18 @@ namespace Pinboard
             public float Height { get; set; }
 
             [Export("rectangle")]
-            public RectangleF Rectangle
+            public CGRect Rectangle
             {
                 get
                 {
-                    return new RectangleF(X, Y, Width, Height);
+                    return new CGRect(X, Y, Width, Height);
                 }
+            }
+
+            [Export("keyPathsForValuesAffectingRectangle")]
+            public static NSSet KeyPathsForValuesAffectingRectangle()
+            {
+                return new NSSet("x", "y", "width", "height");
             }
 
             [Export("size")]
@@ -90,6 +99,12 @@ namespace Pinboard
                 {
                     return new SizeF(Width, Height);
                 }
+            }
+
+            [Export("keyPathsForValuesAffectingSize")]
+            public static NSSet KeyPathsForValuesAffectingSize()
+            {
+                return new NSSet("width", "height");
             }
 
             [Export("color")]

@@ -2,14 +2,34 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleDisplayName</key>
+	<string>Pinboard2</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>com.Jamoki.Pinboard2</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Pinboard</string>
+	<string>Pinboard2</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.8</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>(c) 2014, Jamoki</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -18,9 +38,7 @@
 				<string>pinboard</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string></string>
-			<key>CFBundleTypeName</key>
-			<string>PinboardDocument</string>
+			<string>PinboardFile</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>????</string>
@@ -29,15 +47,9 @@
 			<string>Editor</string>
 			<key>NSDocumentClass</key>
 			<string>PinboardDocument</string>
+			<key>CFBundleTypeName</key>
+			<string>CFBundleTypeName</string>
 		</dict>
 	</array>
-	<key>LSApplicationCategoryType</key>
-	<string>public.app-category.graphics-design</string>
-	<key>CFBundleDisplayName</key>
-	<string>Pinboard</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1.0.0.0</string>
-	<key>LSMinimumSystemVersion</key>
-	<string>10.8</string>
 </dict>
 </plist>

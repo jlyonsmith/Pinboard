@@ -1,7 +1,8 @@
 ﻿using System;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
+using Foundation;
+using AppKit;
 using System.Drawing;
+using CoreGraphics;
 
 namespace Pinboard
 {
@@ -15,12 +16,7 @@ namespace Pinboard
         {
         }
 
-        [Export("initWithCoder:")]
-        public RectangleDrawerDelegate(NSCoder coder) : base(coder)
-        {
-        }
-
-        public override SizeF DrawerWillResizeContents(NSDrawer sender, SizeF toSize)
+        public override CoreGraphics.CGSize DrawerWillResizeContents(NSDrawer sender, CGSize toSize)
         {
             // Prevent resizing of the drawer
             return sender.ContentSize;

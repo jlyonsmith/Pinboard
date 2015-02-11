@@ -1,6 +1,7 @@
 ﻿using System;
-using MonoMac.AppKit;
-using MonoMac.Foundation;
+using AppKit;
+using Foundation;
+using ObjCRuntime;
 using System.Drawing;
 
 namespace Pinboard
@@ -18,6 +19,10 @@ namespace Pinboard
         public NSToolbar Toolbar { get; set; }
         [Outlet]
         public NSView ZoomInOutView { get; set; }
+        [Outlet]
+        public NSArrayController RectangleController { get; set; }
+        [Outlet]
+        public NSObjectController ScreenRectangleController { get; set; }
 
         private PinboardDocument PinboardDocument
         {
@@ -36,10 +41,6 @@ namespace Pinboard
             }
         }
 
-        public PinboardWindowController(IntPtr handle) : base(handle)
-        {
-        }
-
         public PinboardWindowController() : base("PinboardDocument")
         {
         }
@@ -48,11 +49,21 @@ namespace Pinboard
         {
             base.WindowDidLoad();
 
+            RectangleController.Content = PinboardDocument.Pinboard.Rectangles;
+            ScreenRectangleController.Content = PinboardDocument.Pinboard.ScreenRectangle;
+
+            // Sadly, we have to do this manually for the time being.  See comment in PinboardView
+            this.PinboardView.Bind("rectangles", this.RectangleController, "content", new NSDictionary()); 
+            this.PinboardView.Bind("selectionIndexes", this.RectangleController, "selectionIndexes", new NSDictionary()); 
+            this.PinboardView.Bind("screenRectangle", this.ScreenRectangleController, "content", new NSDictionary()); 
+
             SizeF size = PinboardDocument.Pinboard.ScreenRectangle.Size;
 
             // If you don't do this the scroll bars never appear
             PinboardView.SetFrameOrigin(PointF.Empty);
             PinboardView.SetFrameSize(size);
+
+            // TODO: Adjust window size to match content size
 
             // Min size for the window is set in the XIB.  Set the max size here based on the content
             this.Window.ContentMaxSize = size;
@@ -67,7 +78,7 @@ namespace Pinboard
             PinboardView = null;
         }
 
-        [Action("toggleDrawer")]
+        [Action("toggle:")]
         public void ToggleDrawer(NSObject sender)
         {
             var state = this.RectangleDrawer.State;
